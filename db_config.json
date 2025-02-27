@@ -1,5 +1,5 @@
 {
-    "host": "loclahost",
+    "host": "127.0.0.1",
     "user": "thistle",
     "password": "Th!stl3@2025",
     "database": "thistle"
