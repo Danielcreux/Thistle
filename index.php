@@ -2,8 +2,8 @@
 session_start();
 
 // Hardcoded credentials
-define('USERNAME', 'danielcreux');
-define('PASSWORD', 'danielcreux');
+define('USERNAME', 'daniel');
+define('PASSWORD', 'daniel');
 
 // Handle logout
 if (isset($_GET['action']) && $_GET['action'] === 'logout') {

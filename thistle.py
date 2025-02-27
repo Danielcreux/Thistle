@@ -48,7 +48,7 @@ except json.JSONDecodeError as e:
     print(f"Error parsing the JSON configuration file: {e}")
     exit(1)
 
-carpeta = "/C:/xampp/apache/logs"
+carpeta = "/var/log/apache2"
 for root, dirs, files in os.walk(carpeta):
     for file in files:
         if file.endswith("access.log.1"):
