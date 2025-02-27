@@ -1,6 +1,6 @@
 {
-    "host": "127.0.0.1",
+    "host": "localhost",
     "user": "thistle",
-    "password": "Th!stl3@2025",
+    "password": "thistle",
     "database": "thistle"
 }
