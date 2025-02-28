@@ -51,7 +51,7 @@ except json.JSONDecodeError as e:
 carpeta = "/var/log/apache2"
 for root, dirs, files in os.walk(carpeta):
     for file in files:
-        if file.endswith("access.log.1"):
+        if file.endswith("access.log"):
             print("Archivo encontrado:" + file)
             virtualh = file.split("-")[0]
             print(virtualh)
