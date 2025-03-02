@@ -41,8 +41,16 @@ def create_folder_structure(base_folder, virtualhost):
     return subfolder_path
 
 def save_pie_chart(data, folder_path, chart_name):
-    labels = [entry['clave'] for entry in data]
-    sizes = [entry['valor'] for entry in data]
+    if not data:
+        print(f"No data to create the pie chart for {chart_name}")
+        return
+
+    # Ensure that 'clave' and 'valor' keys exist, defaulting to 'Unknown' and 0 respectively if not
+    labels = [entry.get('clave', 'Unknown') for entry in data]
+    sizes = [entry.get('valor', 0) for entry in data]
+
+    # Check the data for debugging
+    print(f"Data for pie chart {chart_name}: {list(zip(labels, sizes))}")
 
     plt.figure()
     plt.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=140)
@@ -52,8 +60,16 @@ def save_pie_chart(data, folder_path, chart_name):
     plt.close()
 
 def save_bar_chart(data, folder_path, chart_name):
-    labels = [entry['clave'] for entry in data]
-    values = [entry['valor'] for entry in data]
+    if not data:
+        print(f"No data to create the bar chart for {chart_name}")
+        return
+
+    # Ensure that 'clave' and 'valor' keys exist, defaulting to 'Unknown' and 0 respectively if not
+    labels = [entry.get('clave', 'Unknown') for entry in data]
+    values = [entry.get('valor', 0) for entry in data]
+
+    # Check the data for debugging
+    print(f"Data for bar chart {chart_name}: {list(zip(labels, values))}")
 
     plt.figure()
     plt.bar(labels, values)
@@ -79,26 +95,32 @@ if __name__ == "__main__":
             virtualhost = row['virtualhost']
             subfolder = create_folder_structure(base_folder, virtualhost)
 
+            # Fetch and handle data for browsers
             data2 = fetch_data(config_file, f"CALL Navegadores('{virtualhost}');")
             if data2:
                 save_pie_chart(data2, subfolder, f"{virtualhost}_browsers")
 
+            # Fetch and handle data for visits per hour
             data2 = fetch_data(config_file, f"CALL VisitasPorHora('{virtualhost}');")
             if data2:
                 save_bar_chart(data2, subfolder, f"{virtualhost}_visitasporhora")
 
+            # Fetch and handle data for operating systems
             data2 = fetch_data(config_file, f"CALL SistemasOperativos('{virtualhost}');")
             if data2:
                 save_pie_chart(data2, subfolder, f"{virtualhost}_sistemas_operativos")
 
+            # Fetch and handle data for status codes
             data2 = fetch_data(config_file, f"CALL CodigosDeEstado('{virtualhost}');")
             if data2:
                 save_pie_chart(data2, subfolder, f"{virtualhost}_codigos_de_estado")
                 
+            # Fetch and handle data for visits in the last 15 days
             data2 = fetch_data(config_file, f"CALL VisitasUltimos15Dias('{virtualhost}');")
             if data2:
                 save_bar_chart(data2, subfolder, f"{virtualhost}_visitas_ultimos_15_dias")
                 
+            # Fetch and handle data for IPs in the last 15 days
             data2 = fetch_data(config_file, f"CALL IPs15ultimosdias('{virtualhost}');")
             if data2:
                 save_bar_chart(data2, subfolder, f"{virtualhost}_IP_ultimos_15_dias")
@@ -106,3 +128,4 @@ if __name__ == "__main__":
         print(f"Charts saved in the '{base_folder}' folder.")
     else:
         print("No data retrieved or an error occurred.")
+  
